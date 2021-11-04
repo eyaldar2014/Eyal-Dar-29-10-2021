@@ -17,17 +17,22 @@ function Home({ city, fetchCurrentWeather, fetchFiveDaysWeather }) {
   const [disabled, setDisabled] = react.useState(true)
   // const [error, setError] = react.useState();
 
+  react.useEffect(()=>{
 
-  // const getCurrentWeatherFromApi = () => fetchCurrentWeather(city.locationKey)
+    fetchCurrentWeather('215854')
+    fetchFiveDaysWeather('215854')
+  },[])
 
-  // const getFiveDaysWeatherForecastFromApi =  () => fetchFiveDaysWeather(city.locationKey)
+  const getCurrentWeatherFromApi = () => fetchCurrentWeather(city.locationKey)
+
+  const getFiveDaysWeatherForecastFromApi =  () => fetchFiveDaysWeather(city.locationKey)
 
 
   const searchLocation = () => {
     setDisabled(true)
 
-    // getFiveDaysWeatherForecastFromApi()
-    // getCurrentWeatherFromApi()
+    getFiveDaysWeatherForecastFromApi()
+    getCurrentWeatherFromApi()
   }
 
   const allowSearch = () => setDisabled(false)
