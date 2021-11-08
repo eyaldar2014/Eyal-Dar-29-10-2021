@@ -14,7 +14,6 @@ import Favorites from './components/Favorites'
 
 function App() {
 
-
   return <>
 
     <Provider store={store}>

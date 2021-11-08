@@ -15,7 +15,7 @@ function FavoriteCard({ favorite, removeFavorite, fetchFavoritetWeather, chooseC
 
   react.useEffect(() => {
 
-    // fetchFavoritetWeather(favorite.locationKey)
+    fetchFavoritetWeather(favorite.locationKey)
   }, [])
 
 
