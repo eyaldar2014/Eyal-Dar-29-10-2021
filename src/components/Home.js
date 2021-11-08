@@ -3,7 +3,7 @@
 
 import react from 'react';
 import { connect } from 'react-redux'
-import { fetchCurrentWeather, fetchFiveDaysWeather, chooseCityToFetchWeatherFrom } from '../redux'
+import { chooseCityToFetchWeatherFrom } from '../redux'
 
 import Autocomplete from './Autocomplete'
 import Button from '@mui/material/Button';
@@ -12,7 +12,7 @@ import Stack from '@mui/material/Stack';
 import CurrentMainCity from './CurrentMainCity';
 
 
-function Home({ city, fetchCurrentWeather, fetchFiveDaysWeather, chooseCityToFetchWeatherFrom }) {
+function Home({ chooseCityToFetchWeatherFrom }) {
 
   const [disabled, setDisabled] = react.useState(true)
   const [chosenCity, setChosenCity] = react.useState();
@@ -58,11 +58,11 @@ function Home({ city, fetchCurrentWeather, fetchFiveDaysWeather, chooseCityToFet
 
 
 
-const mapStateToProps = state => {
-  return {
-    city: state.autocomplete.city
-  }
-}
+// const mapStateToProps = state => {
+//   return {
+//     city: state.autocomplete.city
+//   }
+// }
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -74,6 +74,6 @@ const mapDispatchToProps = dispatch => {
 
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(Home)

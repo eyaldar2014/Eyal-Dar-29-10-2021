@@ -1,6 +1,6 @@
 import react from 'react';
 import { connect } from 'react-redux'
-import { chooseCityToFetchWeatherFrom } from '../redux'
+// import {  } from '../redux'
 import FavoriteCard from './FavoriteCard';
 
 

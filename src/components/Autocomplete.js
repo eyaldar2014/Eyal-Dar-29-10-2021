@@ -13,7 +13,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 // at callAutoCompleteApi function, for delay reason
 let temp = 1;
 
-function AutocompleteComponent({ allowSearch, locationsData, fetcAutocompleteLocations, autocompleteCity, chooseCityToFetchWeatherFrom }) {
+function AutocompleteComponent({ allowSearch, locationsData, fetcAutocompleteLocations, autocompleteCity }) {
 
   const [open, setOpen] = react.useState(false);
   const [options, setOptions] = react.useState([]);

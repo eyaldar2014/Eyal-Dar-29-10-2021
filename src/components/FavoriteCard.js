@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
 
-function FavoriteCard({ favorite, removeFavorite, fetchFavoritetWeather, chooseCity, chooseCityToFetchWeatherFrom }) {
+function FavoriteCard({ favorite, removeFavorite, fetchFavoritetWeather, chooseCityToFetchWeatherFrom }) {
 
   // const [data, setData] = react.useState()
 
