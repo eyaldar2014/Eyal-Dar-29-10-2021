@@ -11,18 +11,14 @@ function Favorites({ favorites }) {
 
   }, [favorites])
 
-  const chooseCity = (city) => {
   
-    console.log('city', city)
-    chooseCityToFetchWeatherFrom(city)
-  }
 
   return <>
     {
       !favorites.favorites.length > 0 ? <h1>no favorites</h1> : <>
         {
           favorites.favorites.map((fav, i) => {
-            return <FavoriteCard key={i} favorite={fav} chooseCity={chooseCity}/>
+            return <FavoriteCard key={i} favorite={fav}/>
           })
         }
       </>
@@ -38,14 +34,14 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    chooseCityToFetchWeatherFrom: (city) => dispatch(chooseCityToFetchWeatherFrom(city)),
-  }
-}
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     chooseCityToFetchWeatherFrom: (city) => dispatch(chooseCityToFetchWeatherFrom(city))
+//   }
+// }
 
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
+  // mapDispatchToProps
 )(Favorites)

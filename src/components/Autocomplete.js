@@ -3,7 +3,7 @@
 
 import react from "react";
 import { connect } from 'react-redux'
-import { fetcAutocompleteLocations, chooseCityToFetchWeatherFrom } from '../redux'
+import { fetcAutocompleteLocations } from '../redux'
 
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
@@ -13,7 +13,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 // at callAutoCompleteApi function, for delay reason
 let temp = 1;
 
-function AutocompleteComponent({ allowSearch, locationsData, fetcAutocompleteLocations, chooseCityToFetchWeatherFrom }) {
+function AutocompleteComponent({ allowSearch, locationsData, fetcAutocompleteLocations, autocompleteCity, chooseCityToFetchWeatherFrom }) {
 
   const [open, setOpen] = react.useState(false);
   const [options, setOptions] = react.useState([]);
@@ -62,7 +62,8 @@ function AutocompleteComponent({ allowSearch, locationsData, fetcAutocompleteLoc
     if (c) {
       if (c.locationKey) {
         allowSearch()
-        chooseCityToFetchWeatherFrom(c)
+        autocompleteCity(c)
+        // chooseCityToFetchWeatherFrom(c)
       }
     }
   };
@@ -129,8 +130,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetcAutocompleteLocations: (val) => dispatch(fetcAutocompleteLocations(val)),
-    chooseCityToFetchWeatherFrom: (city) => dispatch(chooseCityToFetchWeatherFrom(city))
+    fetcAutocompleteLocations: (val) => dispatch(fetcAutocompleteLocations(val))
   }
 }
 

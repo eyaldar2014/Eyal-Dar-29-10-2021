@@ -23,7 +23,7 @@ const favoritesReducer = (state = initialState, action) => {
       ...state,
       favorites: state.favorites.map(fav => {
         if (fav.locationKey === action.payload.locationKey) {
-          let temp = {...fav}
+          let temp = { ...fav }
           temp.weather = action.payload.weather
           // console.log('fav', temp)
           return temp
@@ -31,18 +31,17 @@ const favoritesReducer = (state = initialState, action) => {
         else return fav
       }),
     }
-    case FETCH_FAVOTIRE_WEATHER_FAILURE:
-      return {
-        ...state,
-        loading: false,
-        favorites: state.favorites.map(fav => {
-          if (fav.locationKey === action.payload.locationKey) {
-            return  fav.weather = ''
-          }
-          else return fav
-        }),
-        error: action.payload.error
-      }
+    case FETCH_FAVOTIRE_WEATHER_FAILURE: return {
+      ...state,
+      loading: false,
+      favorites: state.favorites.map(fav => {
+        if (fav.locationKey === action.payload.locationKey) {
+          return fav.weather = ''
+        }
+        else return fav
+      }),
+      error: action.payload.error
+    }
 
 
     case ADD_FAVORITE: return {

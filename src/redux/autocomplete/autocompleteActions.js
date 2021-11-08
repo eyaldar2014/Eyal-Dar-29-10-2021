@@ -23,7 +23,7 @@ export const fetcAutocompleteLocations = (val) => {
 
     try {
       dispatch(fetchAutocompleteLocationsRequest())
-      const response = await axios.get(autocompleteSearchApi + val)
+      const response = await axios.get(autocompleteSearchApi + val, {method: 'HEAD', mode: 'no-cors'})
       
       // console.log(response)
       const locations = response.data

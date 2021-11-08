@@ -1,6 +1,6 @@
 import react from 'react';
 import { connect } from 'react-redux'
-import { addFavorite, removeFavorite } from '../redux'
+import { addFavorite, removeFavorite, chooseCityToFetchWeatherFrom, fetchCurrentWeather, fetchFiveDaysWeather } from '../redux'
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -9,22 +9,36 @@ import Stack from '@mui/material/Stack';
 import DayForecast from './DayForecast';
 
 
-function CurrentMainCity({ currentWeather, fiveDaysWeatherForecast, city, favorites, addFavorite, removeFavorite }) {
+function CurrentMainCity({ fetchCurrentWeather, fetchFiveDaysWeather, currentWeather, fiveDaysWeatherForecast, chooseCityToFetchWeatherFrom, city, favorites, addFavorite, removeFavorite }) {
 
   const [favoriteItem, setFavoriteItem] = react.useState('add')
-  const [mainCity, setMainCity] = react.useState({ name: 'Tel Aviv' })
+  // const [mainCity, setMainCity] = react.useState({ name: 'Tel Aviv' })
 
-  // react.useEffect(() => {
-
-  //   console.log('currentWeather', currentWeather)
-  // }, [])
 
   react.useEffect(() => {
-    setFavoriteItem('add')
 
+    // console.log('currentWeather', currentWeather)
+    if (!city) chooseCityToFetchWeatherFrom({ name: 'Tel Aviv', locationKey: 215854 })
+  }, [])
+
+  react.useEffect(() => {
+
+    setFavoriteItem('add')
     if (city && favorites.favorites.length > 0) checkFavorite()
-    if(city) setMainCity(city)
-  }, [favorites, city, currentWeather, fiveDaysWeatherForecast])
+
+    if (city) getCityInfo(city)
+
+  }, [favorites, city])
+
+
+  const getCityInfo = (c) => {
+
+    const { locationKey } = c
+    // console.log(locationKey)
+
+    fetchCurrentWeather(locationKey)
+    fetchFiveDaysWeather(locationKey)
+  }
 
   const checkFavorite = () => {
     const favorite = favorites.favorites.find(x => x.locationKey === city.locationKey)
@@ -57,7 +71,7 @@ function CurrentMainCity({ currentWeather, fiveDaysWeatherForecast, city, favori
         !currentWeather.currentWeather.Temperature ? null : <>
           <div>
             <div>
-              <h1>{mainCity.name}</h1>
+              <h1>{city.name}</h1>
               <span>{'temp ' + currentWeather.currentWeather.Temperature.Imperial.Value + 'F'}</span>
               <br />
               <span>date&time: {currentWeather.currentWeather.LocalObservationDateTime} </span>
@@ -65,7 +79,7 @@ function CurrentMainCity({ currentWeather, fiveDaysWeatherForecast, city, favori
 
             <Button variant="contained" onClick={favoritesAction}> {favoriteItem} favorite </Button>
 
-            <h2>{currentWeather.WeatherText}</h2>
+            <h2>{currentWeather.currentWeather.WeatherText}</h2>
           </div>
         </>
       }
@@ -100,7 +114,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     addFavorite: (newFavorite) => dispatch(addFavorite(newFavorite)),
-    removeFavorite: (favorite) => dispatch(removeFavorite(favorite))
+    removeFavorite: (favorite) => dispatch(removeFavorite(favorite)),
+    chooseCityToFetchWeatherFrom: (city) => dispatch(chooseCityToFetchWeatherFrom(city)),
+    fetchCurrentWeather: (val) => dispatch(fetchCurrentWeather(val)),
+    fetchFiveDaysWeather: (val) => dispatch(fetchFiveDaysWeather(val))
   }
 }
 

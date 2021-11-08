@@ -17,7 +17,7 @@ export const fetchCurrentWeather = (val) => {
       dispatch(fetchCurrentWeatherRequest())
 
       // console.log(getCurrentWeather + val + apiKey)
-      const response = await axios.get(getCurrentWeather + val + apiKey)
+      const response = await axios.get(getCurrentWeather + val + apiKey, {method: 'HEAD', mode: 'no-cors'})
       
       // console.log(response)
       const currentWeather = response.data

@@ -17,7 +17,7 @@ export const fetchFiveDaysWeather = (val) => {
       dispatch(fetchFiveDaysWeatherRequest())
 
       // console.log(getFiveDaysWeatherForecast + val + apiKey)
-      const response = await axios.get(getFiveDaysWeatherForecast + val + apiKey)
+      const response = await axios.get(getFiveDaysWeatherForecast + val + apiKey, {method: 'HEAD', mode: 'no-cors'})
       
       // console.log(response)
       const fiveDaysWeatherForecast = response.data
