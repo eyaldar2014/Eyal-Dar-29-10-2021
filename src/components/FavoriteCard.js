@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { connect } from 'react-redux'
 import { removeFavorite, fetchFavoritetWeather, chooseCityToFetchWeatherFrom } from '../redux'
 
+import Stack from '@mui/material/Stack';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
@@ -14,7 +15,7 @@ function FavoriteCard({ favorite, removeFavorite, fetchFavoritetWeather, chooseC
 
   react.useEffect(() => {
 
-    fetchFavoritetWeather(favorite.locationKey)
+    // fetchFavoritetWeather(favorite.locationKey)
   }, [])
 
 
@@ -23,29 +24,42 @@ function FavoriteCard({ favorite, removeFavorite, fetchFavoritetWeather, chooseC
 
   return <>
 
-    <Card sx={{ maxWidth: 345 }}>
-      <Link to="/" onClick={() => chooseCityToFetchWeatherFrom(favorite)}>
+    <Card sx={{ width: 150, m: 1 }} >
+      <Stack
+        direction="column"
+        sx={{ p: 1 }}
+        justifyContent="space-between"
+      >
 
-        {!favorite ? null : <>
+        <Link to="/" onClick={() => chooseCityToFetchWeatherFrom(favorite)} style={{ textDecoration: "none"}}>
 
-          <CardContent>
-            <Typography variant="body2" color="text.secondary">
-              {favorite.name}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              temprature is {favorite.weather} F degrees
-            </Typography>
-          </CardContent>
-        </>}
-      </Link>
+          {!favorite ? null : <>
+
+            <CardContent>
+
+              <Typography variant="h6" color="text.secondary" >
+                {favorite.name}
+              </Typography>
+
+              <Typography variant="body2" color="text.secondary">
+                Current Temprature
+              </Typography>
+
+              <Typography variant="body2" color="text.secondary">
+                is {favorite.weather} FFF
+              </Typography>
+
+            </CardContent>
+          </>}
+        </Link>
+
+        <Button variant="contained" onClick={favoritesAction} color="error" > remove </Button>
+
+      </Stack>
     </Card>
-
-    <Button variant="contained" onClick={favoritesAction}> remove favorite </Button>
 
   </>
 }
-
-
 
 
 const mapDispatchToProps = dispatch => {
@@ -55,8 +69,6 @@ const mapDispatchToProps = dispatch => {
     chooseCityToFetchWeatherFrom: (city) => dispatch(chooseCityToFetchWeatherFrom(city))
   }
 }
-
-
 
 export default connect(
   null,

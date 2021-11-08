@@ -16,16 +16,16 @@ import DayForecast from './DayForecast';
 
 
 
-// import * as telAvivWeather5Days from '../fixturesDev/telAvivWeather5Days.json';
-// import * as telAvivWeatherCurrent from '../fixturesDev/telAvivWeatherCurrent.json'
-// import { } from '../fixturesDev/responseTel.json'
+import * as telAvivWeather5Days from '../fixturesDev/telAvivWeather5Days.json';
+import * as telAvivWeatherCurrent from '../fixturesDev/telAvivWeatherCurrent.json'
+import { } from '../fixturesDev/responseTel.json'
 
-// const dailyForecasts = telAvivWeather5Days.data.DailyForecasts;
-// const currentWeatherTemp = telAvivWeatherCurrent[0].Temperature.Imperial.Value
-// const currentWeatherTime = telAvivWeatherCurrent[0].LocalObservationDateTime
-// const timeArray = currentWeatherTime.split(/[T+]+/)
-// const currentWeatherText = telAvivWeatherCurrent[0].WeatherText
-// const name = 'Tel Aviv !'
+const dailyForecasts = telAvivWeather5Days.data.DailyForecasts;
+const currentWeatherTemp = telAvivWeatherCurrent[0].Temperature.Imperial.Value
+const currentWeatherTime = telAvivWeatherCurrent[0].LocalObservationDateTime
+const timeArray = currentWeatherTime.split(/[T+]+/)
+const currentWeatherText = telAvivWeatherCurrent[0].WeatherText
+const name = 'Tel Aviv !'
 
 
 
@@ -33,12 +33,12 @@ import DayForecast from './DayForecast';
 function CurrentMainCity({ fetchCurrentWeather, fetchFiveDaysWeather, currentWeather, fiveDaysWeatherForecast, chooseCityToFetchWeatherFrom, city, favorites, addFavorite, removeFavorite }) {
 
   const [favoriteItem, setFavoriteItem] = react.useState('add')
-  const [timeArray, setTimeArray] = react.useState([])
-  const [cityName, setCityName] = react.useState([])
+  // const [timeArray, setTimeArray] = react.useState([])
+  // const [cityName, setCityName] = react.useState([])
 
   react.useEffect(() => {
 
-    if (!city) chooseCityToFetchWeatherFrom({ name: 'Tel Aviv, Israel', locationKey: 215854 })
+    // if (!city) chooseCityToFetchWeatherFrom({ name: 'Tel Aviv, Israel', locationKey: 215854 })
   }, [])
 
   react.useEffect(() => {
@@ -51,12 +51,12 @@ function CurrentMainCity({ fetchCurrentWeather, fetchFiveDaysWeather, currentWea
 
   react.useEffect(() => {
 
-    if (currentWeather.currentWeather.LocalObservationDateTime) setTimeArray(currentWeather.currentWeather.LocalObservationDateTime.split(/[T+]+/))
+    // if (currentWeather.currentWeather.LocalObservationDateTime) setTimeArray(currentWeather.currentWeather.LocalObservationDateTime.split(/[T+]+/))
   }, [currentWeather])
 
 
   const getCityInfo = (c) => {
-    setCityName(c.name.split(','))
+    // setCityName(c.name.split(','))
 
     const { locationKey } = c
 
@@ -78,7 +78,7 @@ function CurrentMainCity({ fetchCurrentWeather, fetchFiveDaysWeather, currentWea
 
   return <>
 
-    <Box
+    {/* <Box
       sx={{
         m: 4,
         mt: 0,
@@ -134,6 +134,7 @@ function CurrentMainCity({ fetchCurrentWeather, fetchFiveDaysWeather, currentWea
           <Typography variant="h6" color="text.secondary">
             {timeArray[0]}
           </Typography>
+          <br/>
           <Typography gutterBottom variant="h5" component="div" align="center" sx={{ mb: 8 }}>
             Weather is {currentWeather.currentWeather.WeatherText}
           </Typography>
@@ -143,8 +144,15 @@ function CurrentMainCity({ fetchCurrentWeather, fetchFiveDaysWeather, currentWea
 
       {
         !fiveDaysWeatherForecast ? null : <>
-          <Stack direction="row" spacing={2} justifyContent="space-around" >
-            {
+          <Stack 
+          direction="row"
+          sx={{
+            display : 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'space-between',
+          }}
+          >            
+          {
               fiveDaysWeatherForecast.fiveDaysWeatherForecast.map((day, i) => {
                 return <DayForecast key={i} day={day} />
               })
@@ -152,11 +160,10 @@ function CurrentMainCity({ fetchCurrentWeather, fetchFiveDaysWeather, currentWea
           </Stack>
         </>
       }
+    </Box> */}
 
-    </Box>
 
-
-    {/* <Box
+    <Box
       sx={{
         m: 4,
         mt: 0,
@@ -164,8 +171,8 @@ function CurrentMainCity({ fetchCurrentWeather, fetchFiveDaysWeather, currentWea
         backgroundColor: 'primary.dark',
         '&:hover': {
           backgroundColor: 'primary.main',
-          opacity: [0.9, 0.9, 0.9]
-        },
+          opacity: [0.9, 0.9, 0.9],
+        }
       }}
     >
 
@@ -219,10 +226,16 @@ function CurrentMainCity({ fetchCurrentWeather, fetchFiveDaysWeather, currentWea
         </>
       }
 
-
       {
         !dailyForecasts ? null : <>
-          <Stack direction="row" spacing={2} justifyContent="space-around" >
+          <Stack 
+          direction="row"
+          sx={{
+            display : 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'space-between',
+          }}
+          >
             {
               dailyForecasts.map((day, i) => {
                 return <DayForecast key={i} day={day} />
@@ -231,13 +244,7 @@ function CurrentMainCity({ fetchCurrentWeather, fetchFiveDaysWeather, currentWea
           </Stack>
         </>
       }
-    </Box> */}
-
-
-
-
-
-
+    </Box>
 
   </>
 }

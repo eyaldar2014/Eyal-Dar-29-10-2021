@@ -1,16 +1,3 @@
-// remove on mobile :
-// {/* <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} >
-//   Weather App
-// </Typography> */}
-
-
-
-
-
-
-
-
-
 import { Link } from "react-router-dom";
 
 import Typography from '@mui/material/Typography';
@@ -22,10 +9,11 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 
 
 
-function Navbar(props) {
+function Navbar() {
 
 
   return <>
+    <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" >
         <Toolbar>
 
@@ -36,13 +24,13 @@ function Navbar(props) {
           <Box sx={{ flexGrow: 1 }} />
 
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} >
-            <Link to="/" underline="none" className="navItem" style={{ textDecoration: "none", color: "white" }} >
+            <Link to="/" style={{ textDecoration: "none", color: "inherit" }} >
               Main
             </Link>
           </Typography>
 
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} >
-            <Link to="favorites" underline="none" className="navItem" style={{ textDecoration: "none", color: "white" }} >
+            <Link to="favorites" style={{ textDecoration: "none", color: "inherit" }} >
               Favorites
             </Link>
           </Typography>
@@ -61,6 +49,7 @@ function Navbar(props) {
 
         </Toolbar>
       </AppBar>
+    </Box>
 
   </>
 }

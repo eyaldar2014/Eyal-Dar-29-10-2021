@@ -22,7 +22,7 @@ function DayForecast({ day }) {
 
   return <>
 
-    <Card sx={{ minWidth: 170 }}>
+    <Card sx={{ width: 160, m: 1 }}>
       {!data ? null : <>
         <CardContent>
 
