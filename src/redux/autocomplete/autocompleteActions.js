@@ -9,6 +9,7 @@ import {
 
 import { autocompleteSearchApi } from '../fixtures/Apis'
 
+
 export const chooseCityToFetchWeatherFrom = (city) =>{
   return{
     type: CHOOSE_CITY_TO_FETCH_WEATHER_FROM,
@@ -17,7 +18,6 @@ export const chooseCityToFetchWeatherFrom = (city) =>{
 }
 
 export const fetcAutocompleteLocations = (val) => {
-  // console.log('val', val)
   
   return async (dispatch) => {
 
@@ -25,14 +25,11 @@ export const fetcAutocompleteLocations = (val) => {
       dispatch(fetchAutocompleteLocationsRequest())
       const response = await axios.get(autocompleteSearchApi + val, {method: 'HEAD', mode: 'no-cors'})
       
-      // console.log(response)
       const locations = response.data
       if(!locations) dispatch(fetchAutocompleteLocationsFailure('data not retreived'))
       else dispatch(fetchAutocompleteLocationsSuccess(locations))
     }
     catch (error) {
-      // error.message is the error message
-      console.log('error', error)
       dispatch(fetchAutocompleteLocationsFailure(error.message))
     }
   }

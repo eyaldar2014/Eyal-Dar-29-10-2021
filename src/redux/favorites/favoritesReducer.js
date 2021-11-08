@@ -12,6 +12,7 @@ const initialState = {
   error: ''
 }
 
+
 const favoritesReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_FAVOTIRE_WEATHER_REQUEST:
@@ -25,7 +26,6 @@ const favoritesReducer = (state = initialState, action) => {
         if (fav.locationKey === action.payload.locationKey) {
           let temp = { ...fav }
           temp.weather = action.payload.weather
-          // console.log('fav', temp)
           return temp
         }
         else return fav
@@ -42,8 +42,6 @@ const favoritesReducer = (state = initialState, action) => {
       }),
       error: action.payload.error
     }
-
-
     case ADD_FAVORITE: return {
       ...state,
       favorites: [...state.favorites, action.payload]

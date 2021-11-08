@@ -32,8 +32,6 @@ const reducer = (state = initialState, action) => {
         fiveDaysWeatherForecast: [],
         error: action.payload
       }
-
-
     default: return state
   }
 }

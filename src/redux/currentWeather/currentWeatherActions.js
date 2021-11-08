@@ -16,17 +16,14 @@ export const fetchCurrentWeather = (val) => {
     try {
       dispatch(fetchCurrentWeatherRequest())
 
-      // console.log(getCurrentWeather + val + apiKey)
       const response = await axios.get(getCurrentWeather + val + apiKey, {method: 'HEAD', mode: 'no-cors'})
       
-      // console.log(response)
       const currentWeather = response.data
       if(!currentWeather) dispatch(fetchCurrentWeatherFailure('data not retreived'))
       else dispatch(fetchCurrentWeatherSuccess(currentWeather[0]))
     }
     catch (error) {
-      // error.message is the error message
-      // console.log('error', error)
+
       dispatch(fetchCurrentWeatherFailure(error.message))
     }
   }

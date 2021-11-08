@@ -16,17 +16,13 @@ export const fetchFiveDaysWeather = (val) => {
     try {
       dispatch(fetchFiveDaysWeatherRequest())
 
-      // console.log(getFiveDaysWeatherForecast + val + apiKey)
       const response = await axios.get(getFiveDaysWeatherForecast + val + apiKey, {method: 'HEAD', mode: 'no-cors'})
       
-      // console.log(response)
       const fiveDaysWeatherForecast = response.data
       if(!fiveDaysWeatherForecast) dispatch(fetchFiveDaysWeatherFailure('data not retreived'))
       else dispatch(fetchFiveDaysWeatherSuccess(fiveDaysWeatherForecast.DailyForecasts))
     }
     catch (error) {
-      // error.message is the error message
-      // console.log('error', error)
       dispatch(fetchFiveDaysWeatherFailure(error.message))
     }
   }

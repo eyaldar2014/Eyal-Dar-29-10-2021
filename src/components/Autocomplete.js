@@ -1,6 +1,3 @@
-// handle error with api
-
-
 import react from "react";
 import { connect } from 'react-redux'
 import { fetcAutocompleteLocations } from '../redux'
@@ -20,7 +17,6 @@ function AutocompleteComponent({ allowSearch, locationsData, fetcAutocompleteLoc
   const loading = open && options.length === 0;
 
   react.useEffect(() => {
-    // console.log('locationsData', locationsData)
 
     if (locationsData.locations.length > 0) {
       setOptions(locationsData.locations.map((place) => {
@@ -32,7 +28,6 @@ function AutocompleteComponent({ allowSearch, locationsData, fetcAutocompleteLoc
       ));
     }
   }, [locationsData])
-
 
 
   function callAutoCompleteApi(value, mergeTypeRequest) {
@@ -48,25 +43,17 @@ function AutocompleteComponent({ allowSearch, locationsData, fetcAutocompleteLoc
     }, 500);
   };
 
-  react.useEffect(() => {
-    if (!open) {
-      setOptions([]);
-    }
-  }, [open]);
-
   const onSelectHandle = (e, c) => {
-    // console.log(e);
-    // console.log(c);
 
     // cases where no country is chosen, 'x' button is clicked inside search
     if (c) {
       if (c.locationKey) {
         allowSearch()
         autocompleteCity(c)
-        // chooseCityToFetchWeatherFrom(c)
       }
     }
   };
+
 
   return (
     <Autocomplete
@@ -79,19 +66,11 @@ function AutocompleteComponent({ allowSearch, locationsData, fetcAutocompleteLoc
       onClose={() => {
         setOpen(false);
       }}
-
-
-      // getOptionSelected={(option, value) => option.locationKey}
       
       onChange={onSelectHandle}
-
       getOptionSelected={(option) => option.name}
       getOptionLabel={(option) => option.name}
-
-
       options={options}
-
-
       loading={loading}
       renderInput={(params) => (
         <TextField
@@ -121,7 +100,6 @@ function AutocompleteComponent({ allowSearch, locationsData, fetcAutocompleteLoc
 }
 
 
-
 const mapStateToProps = state => {
   return {
     locationsData: state.autocomplete
@@ -133,7 +111,6 @@ const mapDispatchToProps = dispatch => {
     fetcAutocompleteLocations: (val) => dispatch(fetcAutocompleteLocations(val))
   }
 }
-
 
 export default connect(
   mapStateToProps,

@@ -1,16 +1,7 @@
-// not found component
-// local storage? 
-// refresh on browser, in route will cause error - fix if i have time
-
-
-
-
-// import react from 'react'
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import { Provider } from 'react-redux'
 import store from './redux/store'
-
 
 import './App.css';
 import { StyledEngineProvider } from '@mui/material/styles';
@@ -21,9 +12,7 @@ import Home from './components/Home'
 import Favorites from './components/Favorites'
 
 
-
 function App() {
-
 
 
   return <>

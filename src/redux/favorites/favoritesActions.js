@@ -9,7 +9,7 @@ import {
   FETCH_FAVOTIRE_WEATHER_FAILURE
 } from './favoritesTypes'
 
-import { getCurrentWeather, apiKey } from '../fixtures/Apis' // +{locationKey} + {apiKey}
+import { getCurrentWeather, apiKey } from '../fixtures/Apis' 
 
 
 export const fetchFavoritetWeather = (val) => {
@@ -19,18 +19,15 @@ export const fetchFavoritetWeather = (val) => {
     try {
       dispatch(fetchFavoriteWeatherRequest())
 
-      // console.log(getCurrentWeather + val + apiKey)
       const response = await axios.get(getCurrentWeather + val + apiKey)
 
-      console.log(response)
       const currentWeather = response.data
       const error = 'data not retreived'
+
       if (!currentWeather) dispatch(fetchFavoriteWeatherFailure(error, val))
       else dispatch(fetchFavoriteWeatherSuccess(val, currentWeather[0]))
     }
     catch (error) {
-      // error.message is the error message
-      console.log('error', error)
       dispatch(fetchFavoriteWeatherFailure(error.message, val))
     }
   }
@@ -61,15 +58,6 @@ export const fetchFavoriteWeatherFailure = (error, val) => {
     }
   }
 }
-
-
-
-
-
-
-
-
-
 
 export const addFavorite = (newFavorite) => {
   return {

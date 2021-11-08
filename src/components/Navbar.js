@@ -1,29 +1,53 @@
-import React from 'react';
+// remove on mobile :
+// {/* <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} >
+//   Weather App
+// </Typography> */}
+
+
+
+
+
+
+
+
 
 import { Link } from "react-router-dom";
 
+import Typography from '@mui/material/Typography';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 
 
 
 function Navbar(props) {
+
+
   return <>
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" >
         <Toolbar>
 
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} >
-          <Link to="/" className="navItem">main</Link>
+            Weather App
           </Typography>
 
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} onClick={() => console.log('if needs  - redirect to self route')}>
-          <Link to="/favorites" className="navItem">favorites</Link>
+          <Box sx={{ flexGrow: 1 }} />
+
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} >
+            <Link to="/" underline="none" className="navItem" style={{ textDecoration: "none", color: "white" }} >
+              Main
+            </Link>
           </Typography>
+
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} >
+            <Link to="favorites" underline="none" className="navItem" style={{ textDecoration: "none", color: "white" }} >
+              Favorites
+            </Link>
+          </Typography>
+
+          <Box sx={{ flexGrow: 1 }} />
 
           <IconButton
             size="large"
@@ -37,7 +61,6 @@ function Navbar(props) {
 
         </Toolbar>
       </AppBar>
-    </Box>
 
   </>
 }
