@@ -34,7 +34,7 @@ function Home({ chooseCityToFetchWeatherFrom, setup }) {
         pb: 4
       }}
     >
-      <Stack direction="row" sx={{ width: 330, pt: 4, pl: 2, m: 4, mt: 0 }} >
+      <Stack direction="row" sx={{ width: 330, pt: 4, pl: 0, m: 4, mt: 0 }} >
         <Autocomplete allowSearch={allowSearch} autocompleteCity={(c) => setChosenCity(c)} />
 
         <IconButton
