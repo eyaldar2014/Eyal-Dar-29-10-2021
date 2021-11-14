@@ -9,58 +9,101 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import { makeStyles } from '@material-ui/core';
+import { CardActionArea } from '@mui/material';
 
 
-function FavoriteCard({ favorite, removeFavorite, fetchFavoritetWeather, chooseCityToFetchWeatherFrom }) {
+function FavoriteCard({ favorite, removeFavorite, fetchFavoritetWeather, chooseCityToFetchWeatherFrom, favorites, setup }) {
+
 
   react.useEffect(() => {
 
     fetchFavoritetWeather(favorite.locationKey)
   }, [])
 
+  react.useEffect(() => {
+
+  }, [favorites])
+
 
   const favoritesAction = () => removeFavorite(favorite.locationKey)
 
 
+  const useStyles = makeStyles((theme) => ({
+    button: {
+      color: setup.theme.textColor,
+      background: setup.theme.blue,
+      "&:hover": {
+        backgroundColor: 'red'
+      },
+    }
+  }));
+  const classes = useStyles();
+
+
   return <>
 
-    <Card sx={{ width: 150, m: 1 }} >
-      <Stack
-        direction="column"
-        sx={{ p: 1 }}
-        justifyContent="space-between"
-      >
+    <Card sx={{
+      width: 150,
+      m: 1,
+      backgroundColor: setup.theme.backgroundColor,
+      color: setup.theme.textColor
+    }} >
+      <CardActionArea>
+        <Stack
+          direction="column"
+          sx={{ p: 1 }}
+          justifyContent="space-between"
+        >
 
-        <Link to="/" onClick={() => chooseCityToFetchWeatherFrom(favorite)} style={{ textDecoration: "none"}}>
+          <Link to="/" onClick={() => chooseCityToFetchWeatherFrom(favorite)} style={{ textDecoration: "none" }}>
 
-          {!favorite ? null : <>
+            {!favorite ? null : <>
 
-            <CardContent>
+              <CardContent>
 
-              <Typography variant="h6" color="text.secondary" >
-                {favorite.name}
-              </Typography>
+                <Typography variant="h6" sx={{ color: setup.theme.textColor }} >
+                  {favorite.name}
+                </Typography>
 
-              <Typography variant="body2" color="text.secondary">
-                Current Temprature
-              </Typography>
+                <Typography variant="body2" sx={{ color: setup.theme.textColor }} >
+                  Current Temprature
+                </Typography>
 
-              <Typography variant="body2" color="text.secondary">
-                is {favorite.weather} FFF
-              </Typography>
+                <Typography variant="body2" sx={{ color: setup.theme.textColor }} >
+                  {
+                    !favorite.weather ? null : <>
+                      is {favorite.weather[setup.degrees.type] + setup.degrees.symbol}
+                    </>
+                  }
+                </Typography>
 
-            </CardContent>
-          </>}
-        </Link>
+              </CardContent>
+            </>}
+          </Link>
 
-        <Button variant="contained" onClick={favoritesAction} color="error" > remove </Button>
+          <Button
+            variant="contained"
+            onClick={favoritesAction}
+            className={classes.button}
+          >
+            remove
+          </Button>
 
-      </Stack>
+        </Stack>
+      </CardActionArea>
     </Card>
 
   </>
 }
 
+
+const mapStateToProps = state => {
+  return {
+    favorites: state.favorites,
+    setup: state.setup
+  }
+}
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -71,6 +114,6 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(FavoriteCard)

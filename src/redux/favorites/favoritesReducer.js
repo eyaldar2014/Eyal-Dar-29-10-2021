@@ -3,7 +3,7 @@ import {
   REMOVE_FAVORITE,
   FETCH_FAVOTIRE_WEATHER_REQUEST,
   FETCH_FAVOTIRE_WEATHER_SUCCESS,
-  FETCH_FAVOTIRE_WEATHER_FAILURE
+  FETCH_FAVOTIRE_WEATHER_FAILURE,
 } from './favoritesTypes'
 
 const initialState = {
@@ -24,9 +24,8 @@ const favoritesReducer = (state = initialState, action) => {
       ...state,
       favorites: state.favorites.map(fav => {
         if (fav.locationKey === action.payload.locationKey) {
-          let temp = { ...fav }
-          temp.weather = action.payload.weather
-          return temp
+          fav.weather = action.payload.weather
+          return fav
         }
         else return fav
       }),
@@ -36,7 +35,8 @@ const favoritesReducer = (state = initialState, action) => {
       loading: false,
       favorites: state.favorites.map(fav => {
         if (fav.locationKey === action.payload.locationKey) {
-          return fav.weather = ''
+          fav.weather = ''
+          return fav
         }
         else return fav
       }),

@@ -15,7 +15,6 @@ import Favorites from './components/Favorites'
 function App() {
 
   return <>
-
     <Provider store={store}>
       <StyledEngineProvider injectFirst>
 
@@ -38,7 +37,6 @@ function App() {
 
       </StyledEngineProvider>,
     </Provider>
-
   </>
 }
 

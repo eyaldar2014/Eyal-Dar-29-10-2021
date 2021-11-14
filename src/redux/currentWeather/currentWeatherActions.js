@@ -19,12 +19,18 @@ export const fetchCurrentWeather = (val) => {
       const response = await axios.get(getCurrentWeather + val + apiKey, {method: 'HEAD', mode: 'no-cors'})
       
       const currentWeather = response.data
-      if(!currentWeather) dispatch(fetchCurrentWeatherFailure('data not retreived'))
-      else dispatch(fetchCurrentWeatherSuccess(currentWeather[0]))
+      if(!currentWeather) return dispatch(fetchCurrentWeatherFailure('data not retreived'))
+
+      let temp = {}
+      temp.f = currentWeather[0].Temperature.Imperial.Value
+      temp.c = Math.floor((currentWeather[0].Temperature.Imperial.Value - 32) / 1.8) 
+      temp.WeatherText = currentWeather[0].WeatherText
+      temp.LocalObservationDateTime = currentWeather[0].LocalObservationDateTime
+      return dispatch(fetchCurrentWeatherSuccess(temp))
     }
     catch (error) {
 
-      dispatch(fetchCurrentWeatherFailure(error.message))
+      return dispatch(fetchCurrentWeatherFailure(error.message))
     }
   }
 }

@@ -1,3 +1,6 @@
+import { connect } from 'react-redux'
+import { changeDegreesToCelsius, changeDegreesToFahrenheit, changeThemeToLight, changeThemeToDark } from '../redux'
+
 import { Link } from "react-router-dom";
 
 import Typography from '@mui/material/Typography';
@@ -6,15 +9,32 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
+import { Icon } from "@material-ui/core";
+
+import { ReactComponent as DegreesWhite } from "../fixtures/DegreesWhite.svg";
+import { ReactComponent as DegreesBlack } from "../fixtures/DegreesBlack.svg";
 
 
+function Navbar({ changeDegreesToCelsius, changeDegreesToFahrenheit, changeThemeToLight, changeThemeToDark, setup }) {
 
-function Navbar() {
 
+  const degreesAction = () => {
+    if (setup.degrees.type === 'f') return changeDegreesToCelsius()
+    else return changeDegreesToFahrenheit()
+  }
+
+  const themeAction = () => {
+    if (setup.theme.type === 'light') return changeThemeToDark()
+    else return changeThemeToLight()
+  }
 
   return <>
+
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" >
+      <AppBar
+        position="static"
+        style={{ background: setup.theme.blue, color: setup.theme.textColor }}
+      >
         <Toolbar>
 
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} >
@@ -43,6 +63,20 @@ function Navbar() {
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2 }}
+            onClick={degreesAction}
+          >
+            <Icon>
+              {setup.theme.type === 'light' ? < DegreesBlack /> : < DegreesWhite />}
+            </Icon>
+          </IconButton>
+
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+            onClick={themeAction}
           >
             <DarkModeIcon />
           </IconButton>
@@ -54,4 +88,23 @@ function Navbar() {
   </>
 }
 
-export default Navbar;
+
+const mapStateToProps = state => {
+  return {
+    setup: state.setup
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    changeDegreesToCelsius: () => dispatch(changeDegreesToCelsius()),
+    changeDegreesToFahrenheit: () => dispatch(changeDegreesToFahrenheit()),
+    changeThemeToLight: () => dispatch(changeThemeToLight()),
+    changeThemeToDark: () => dispatch(changeThemeToDark())
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Navbar)

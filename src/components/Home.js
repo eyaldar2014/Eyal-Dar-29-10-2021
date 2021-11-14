@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { chooseCityToFetchWeatherFrom } from '../redux'
 
 import Autocomplete from './Autocomplete'
+import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
@@ -11,7 +12,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import CurrentMainCity from './CurrentMainCity';
 
 
-function Home({ chooseCityToFetchWeatherFrom }) {
+function Home({ chooseCityToFetchWeatherFrom, setup }) {
 
   const [disabled, setDisabled] = react.useState(true)
   const [chosenCity, setChosenCity] = react.useState();
@@ -27,29 +28,38 @@ function Home({ chooseCityToFetchWeatherFrom }) {
 
 
   return (
-    <div>
-
-      <Stack direction="row" sx={{ width: 330, m: 4 }}>
+    <Box
+      sx={{
+        backgroundColor: setup.theme.backgroundColor,
+        pb: 4
+      }}
+    >
+      <Stack direction="row" sx={{ width: 330, pt: 4, pl: 2, m: 4, mt: 0 }} >
         <Autocomplete allowSearch={allowSearch} autocompleteCity={(c) => setChosenCity(c)} />
 
         <IconButton
           size="large"
-          color="default"
           aria-label="menu"
           onClick={searchLocation}
           disabled={disabled}
           variant="contained"
         >
-          <SearchIcon fontSize="large" />
+          <SearchIcon fontSize="large" sx={{ color: setup.theme.textColor }} />
         </IconButton>
       </Stack>
 
       <CurrentMainCity />
 
-    </div>
+    </Box>
   );
 }
 
+
+const mapStateToProps = state => {
+  return {
+    setup: state.setup
+  }
+}
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -59,6 +69,6 @@ const mapDispatchToProps = dispatch => {
 
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Home)

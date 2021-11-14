@@ -16,7 +16,7 @@ import Collapse from '@mui/material/Collapse';
 import DayForecast from './DayForecast';
 
 
-function CurrentMainCity({ fetchCurrentWeather, fetchFiveDaysWeather, currentWeather, fiveDaysWeatherForecast, autocomplete, chooseCityToFetchWeatherFrom, city, favorites, addFavorite, removeFavorite }) {
+function CurrentMainCity({ fetchCurrentWeather, fetchFiveDaysWeather, currentWeather, fiveDaysWeatherForecast, autocomplete, chooseCityToFetchWeatherFrom, city, favorites, addFavorite, removeFavorite, setup }) {
 
   const [favoriteItem, setFavoriteItem] = react.useState('add')
   const [timeArray, setTimeArray] = react.useState([])
@@ -74,7 +74,7 @@ function CurrentMainCity({ fetchCurrentWeather, fetchFiveDaysWeather, currentWea
 
     {
       error === false ? null : <>
-        <Box sx={{ width: '100%' }}>
+        <Box sx={{ width: '100%' }} >
           <Collapse in={open}>
             <Alert
               severity="error"
@@ -103,17 +103,13 @@ function CurrentMainCity({ fetchCurrentWeather, fetchFiveDaysWeather, currentWea
         m: 4,
         mt: 0,
         p: 4,
-        backgroundColor: 'primary.dark',
-        '&:hover': {
-          backgroundColor: 'primary.main',
-          opacity: [0.9, 0.9, 0.9]
-        },
+        backgroundColor: setup.theme.blue
       }}
     >
 
       {
-        !currentWeather.currentWeather.Temperature ? null : <>
-          <Stack direction="row" sx={{ m: 1 }} justifyContent="space-between" >
+        !currentWeather.currentWeather.WeatherText ? null : <>
+          <Stack direction="row" sx={{ m: 1, color: setup.theme.textColor }} justifyContent="space-between" >
 
             <Typography gutterBottom variant="h4" component="div">
               {cityName[0]}
@@ -123,7 +119,7 @@ function CurrentMainCity({ fetchCurrentWeather, fetchFiveDaysWeather, currentWea
               favoriteItem === 'add' ? <>
                 <IconButton
                   size="large"
-                  color="default"
+                  color='inherit'
                   aria-label="menu"
                   onClick={favoritesAction}
                   variant="contained"
@@ -145,17 +141,18 @@ function CurrentMainCity({ fetchCurrentWeather, fetchFiveDaysWeather, currentWea
             }
           </Stack>
 
-          <Typography variant="h6" color="text.secondary">
-            {'Current Temperarue is ' + currentWeather.currentWeather.Temperature.Imperial.Value + ' FFF'}
+          <Typography variant="h6" sx={{ color: setup.theme.textColor }} >
+            Current Temperarue is {currentWeather.currentWeather[setup.degrees.type] + setup.degrees.symbol}
+
           </Typography>
-          <Typography variant="h6" color="text.secondary">
+          <Typography variant="h6" sx={{ color: setup.theme.textColor }} >
             {timeArray[1]}
           </Typography>
-          <Typography variant="h6" color="text.secondary">
+          <Typography variant="h6" sx={{ color: setup.theme.textColor }} >
             {timeArray[0]}
           </Typography>
           <br />
-          <Typography gutterBottom variant="h5" component="div" align="center" sx={{ mb: 8 }}>
+          <Typography gutterBottom variant="h5" component="div" align="center" sx={{ mb: 8, color: setup.theme.textColor }}>
             Weather is {currentWeather.currentWeather.WeatherText}
           </Typography>
 
@@ -192,7 +189,8 @@ const mapStateToProps = state => {
     fiveDaysWeatherForecast: state.fiveDaysWeatherForecast,
     city: state.autocomplete.city,
     favorites: state.favorites,
-    autocomplete: state.autocomplete
+    autocomplete: state.autocomplete,
+    setup: state.setup
   }
 }
 

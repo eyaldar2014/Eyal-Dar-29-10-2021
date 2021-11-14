@@ -3,13 +3,12 @@ import axios from 'axios'
 import {
   ADD_FAVORITE,
   REMOVE_FAVORITE,
-
   FETCH_FAVOTIRE_WEATHER_REQUEST,
   FETCH_FAVOTIRE_WEATHER_SUCCESS,
   FETCH_FAVOTIRE_WEATHER_FAILURE
 } from './favoritesTypes'
 
-import { getCurrentWeather, apiKey } from '../fixtures/Apis' 
+import { getCurrentWeather, apiKey } from '../fixtures/Apis'
 
 
 export const fetchFavoritetWeather = (val) => {
@@ -22,13 +21,16 @@ export const fetchFavoritetWeather = (val) => {
       const response = await axios.get(getCurrentWeather + val + apiKey)
 
       const currentWeather = response.data
-      const error = 'data not retreived'
+      if (!currentWeather) return dispatch(fetchFavoriteWeatherFailure('data not retreived', val))
 
-      if (!currentWeather) dispatch(fetchFavoriteWeatherFailure(error, val))
-      else dispatch(fetchFavoriteWeatherSuccess(val, currentWeather[0]))
+      let temp = {}
+      temp.f = currentWeather[0].Temperature.Imperial.Value
+      temp.c = Math.floor((currentWeather[0].Temperature.Imperial.Value - 32) / 1.8) 
+      
+      return dispatch(fetchFavoriteWeatherSuccess(val, temp))
     }
     catch (error) {
-      dispatch(fetchFavoriteWeatherFailure(error.message, val))
+      return dispatch(fetchFavoriteWeatherFailure(error.message, val))
     }
   }
 }
@@ -43,8 +45,8 @@ export const fetchFavoriteWeatherSuccess = (val, currentWeather) => {
   return {
     type: FETCH_FAVOTIRE_WEATHER_SUCCESS,
     payload: {
-      weather : currentWeather.Temperature.Imperial.Value,
-      locationKey : val
+      weather: currentWeather,
+      locationKey: val
     }
   }
 }
@@ -53,7 +55,7 @@ export const fetchFavoriteWeatherFailure = (error, val) => {
   return {
     type: FETCH_FAVOTIRE_WEATHER_FAILURE,
     payload: {
-      locationKey : val,
+      locationKey: val,
       error
     }
   }
