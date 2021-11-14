@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
-import { Icon } from "@material-ui/core";
+import { Icon, makeStyles } from "@material-ui/core";
 
 import { ReactComponent as DegreesWhite } from "../fixtures/DegreesWhite.svg";
 import { ReactComponent as DegreesBlack } from "../fixtures/DegreesBlack.svg";
@@ -28,6 +28,17 @@ function Navbar({ changeDegreesToCelsius, changeDegreesToFahrenheit, changeTheme
     else return changeThemeToLight()
   }
 
+
+  const useStyles = makeStyles((theme) => ({
+    navIconHide: {
+      [theme.breakpoints.down('sm')]: {
+        display: 'none',
+      },
+    },
+  }));
+  const classes = useStyles();
+
+
   return <>
 
     <Box sx={{ flexGrow: 1 }}>
@@ -37,7 +48,7 @@ function Navbar({ changeDegreesToCelsius, changeDegreesToFahrenheit, changeTheme
       >
         <Toolbar>
 
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} >
+          <Typography className={classes.navIconHide} variant="h6" component="div" sx={{ flexGrow: 1 }} >
             Weather App
           </Typography>
 
