@@ -62,7 +62,7 @@ function AutocompleteComponent({ allowSearch, locationsData, fetcAutocompleteLoc
       color: setup.theme.textColor
     },
     loadingText: {
-      backgroundColor: setup.theme.backgroundColor,
+      background: setup.theme.backgroundColor,
       color: setup.theme.textColor
     }
   });
@@ -75,7 +75,7 @@ function AutocompleteComponent({ allowSearch, locationsData, fetcAutocompleteLoc
       style={{ width: 300, background: setup.theme.backgroundColor }}
       classes={{
         paper: classes.autocompleteOptions,
-        option: classes.options,
+        // option: classes.options,
         loading: classes.loadingText
       }}
 

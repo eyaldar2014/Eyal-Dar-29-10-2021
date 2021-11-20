@@ -24,8 +24,8 @@ export const fetchCurrentWeather = (val) => {
       let temp = {}
       temp.f = currentWeather[0].Temperature.Imperial.Value
       temp.c = Math.floor((currentWeather[0].Temperature.Imperial.Value - 32) / 1.8) 
-      temp.WeatherText = currentWeather[0].WeatherText
-      temp.LocalObservationDateTime = currentWeather[0].LocalObservationDateTime
+      temp.weatherText = currentWeather[0].WeatherText
+      temp.time = currentWeather[0].LocalObservationDateTime.split(/[T+]+/)
       return dispatch(fetchCurrentWeatherSuccess(temp))
     }
     catch (error) {

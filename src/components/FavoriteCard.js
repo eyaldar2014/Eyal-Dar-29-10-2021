@@ -10,7 +10,6 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { makeStyles } from '@material-ui/core';
-import { CardActionArea } from '@mui/material';
 
 
 function FavoriteCard({ favorite, removeFavorite, fetchFavoritetWeather, chooseCityToFetchWeatherFrom, favorites, setup }) {
@@ -30,12 +29,20 @@ function FavoriteCard({ favorite, removeFavorite, fetchFavoritetWeather, chooseC
 
 
   const useStyles = makeStyles((theme) => ({
+    card: {
+      backgroundColor: setup.theme.backgroundColor,
+      color: setup.theme.textColor,
+      
+      "&:hover": {
+        opacity : '0.9'
+      }
+    },
     button: {
       color: setup.theme.textColor,
       background: setup.theme.blue,
       "&:hover": {
         backgroundColor: 'red'
-      },
+      }
     }
   }));
   const classes = useStyles();
@@ -43,13 +50,12 @@ function FavoriteCard({ favorite, removeFavorite, fetchFavoritetWeather, chooseC
 
   return <>
 
-    <Card sx={{
+    <Card
+    className={classes.card}
+    sx={{
       width: 150,
-      m: 1,
-      backgroundColor: setup.theme.backgroundColor,
-      color: setup.theme.textColor
+      m: 1
     }} >
-      <CardActionArea>
         <Stack
           direction="column"
           sx={{ p: 1 }}
@@ -91,7 +97,6 @@ function FavoriteCard({ favorite, removeFavorite, fetchFavoritetWeather, chooseC
           </Button>
 
         </Stack>
-      </CardActionArea>
     </Card>
 
   </>

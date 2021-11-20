@@ -35,7 +35,7 @@ function App() {
 
         </BrowserRouter>
 
-      </StyledEngineProvider>,
+      </StyledEngineProvider>
     </Provider>
   </>
 }

@@ -6,6 +6,7 @@ import weekDays from '../fixtures/weekDays'
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+import { makeStyles } from "@material-ui/core/styles";
 
 
 function DayForecast({ day, setup }) {
@@ -22,9 +23,21 @@ function DayForecast({ day, setup }) {
   }, [])
 
 
+  const useStyles = makeStyles({
+    card: {
+      backgroundColor: setup.theme.backgroundColor,
+      color: setup.theme.textColor
+    }
+  });
+  const classes = useStyles();
+
+
   return <>
 
-    <Card sx={{ width: 160, m: 1, backgroundColor: setup.theme.backgroundColor, color: setup.theme.textColor}}>
+    {/* , backgroundColor: setup.theme.backgroundColor, color: setup.theme.textColor */}
+    <Card sx={{ width: 160, m: 1 }}
+    className={classes.card}
+    >
       {!data ? null : <>
         <CardContent>
 
