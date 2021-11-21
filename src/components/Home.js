@@ -1,30 +1,24 @@
 import react from 'react';
 
 import { connect } from 'react-redux'
-import { chooseCityToFetchWeatherFrom } from '../redux'
 
-import Autocomplete from './Autocomplete'
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import IconButton from '@mui/material/IconButton';
-import SearchIcon from '@mui/icons-material/Search';
+import Autocomplete from './Autocomplete'
 
+import ErrorComponent from './ErrorComponent'
 import CurrentMainCity from './CurrentMainCity';
+import CarouselContainer from './CarouselContainer';
 
 
-function Home({ chooseCityToFetchWeatherFrom, setup }) {
+function Home({ currentWeather, fiveDaysWeatherForecast, autocomplete, setup }) {
 
-  const [disabled, setDisabled] = react.useState(true)
-  const [chosenCity, setChosenCity] = react.useState();
+  const [error, setError] = react.useState(false)
 
+  react.useEffect(() => {
 
-  const searchLocation = () => {
-    setDisabled(true)
+    if (currentWeather.error || fiveDaysWeatherForecast.error || autocomplete.error) setError(true)
 
-    chooseCityToFetchWeatherFrom(chosenCity)
-  }
-
-  const allowSearch = () => setDisabled(false)
+  }, [currentWeather, fiveDaysWeatherForecast, autocomplete])
 
 
   return (
@@ -34,22 +28,28 @@ function Home({ chooseCityToFetchWeatherFrom, setup }) {
         pb: 4
       }}
     >
-      <Stack direction="row" sx={{ width: 330, pt: 4, pl: 0, m: 4, mt: 0 }} >
-        <Autocomplete allowSearch={allowSearch} autocompleteCity={(c) => setChosenCity(c)} />
+      <Box sx={{ width: 330, pt: 4, pl: 0, m: 4, mt: 0 }} >
+        <Autocomplete sx={{ width: 330, pt: 4, pl: 0, m: 4, mt: 0 }} />
+      </Box>
 
-        <IconButton
-          size="large"
-          aria-label="menu"
-          onClick={searchLocation}
-          disabled={disabled}
-          variant="contained"
-        >
-          <SearchIcon fontSize="large" sx={{ color: setup.theme.textColor }} />
-        </IconButton>
-      </Stack>
+      {
+        error === false
+          ? null
+          : <ErrorComponent />
+      }
 
-      <CurrentMainCity />
+      <Box
+        sx={{
+          m: 1,
+          mt: 0,
+          p: 3,
+          backgroundColor: setup.theme.blue
+        }}
+      >
+        <CurrentMainCity />
 
+        <CarouselContainer />
+      </Box>
     </Box>
   );
 }
@@ -57,18 +57,14 @@ function Home({ chooseCityToFetchWeatherFrom, setup }) {
 
 const mapStateToProps = state => {
   return {
+    currentWeather: state.currentWeather,
+    fiveDaysWeatherForecast: state.fiveDaysWeatherForecast,
+    autocomplete: state.autocomplete,
     setup: state.setup
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    chooseCityToFetchWeatherFrom: (city) => dispatch(chooseCityToFetchWeatherFrom(city))
-  }
-}
-
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(Home)

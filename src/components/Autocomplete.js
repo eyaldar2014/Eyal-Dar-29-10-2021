@@ -1,6 +1,6 @@
 import react from "react";
 import { connect } from 'react-redux'
-import { fetcAutocompleteLocations } from '../redux'
+import { fetcAutocompleteLocations, chooseCityToFetchWeatherFrom } from '../redux'
 
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
@@ -11,7 +11,7 @@ import { makeStyles } from "@material-ui/core/styles";
 // at callAutoCompleteApi function, for delay reason
 let temp = 1;
 
-function AutocompleteComponent({ allowSearch, locationsData, fetcAutocompleteLocations, autocompleteCity, setup }) {
+function AutocompleteComponent({ locationsData, fetcAutocompleteLocations, chooseCityToFetchWeatherFrom, setup }) {
 
   const [open, setOpen] = react.useState(false);
   const [options, setOptions] = react.useState([]);
@@ -32,7 +32,7 @@ function AutocompleteComponent({ allowSearch, locationsData, fetcAutocompleteLoc
 
 
   function callAutoCompleteApi(value, mergeTypeRequest) {
-    if ( mergeTypeRequest === temp && value !== '' ) fetcAutocompleteLocations(value)
+    if (mergeTypeRequest === temp && value !== '') fetcAutocompleteLocations(value)
   }
 
   const onChangeHandle = async (value) => {
@@ -45,14 +45,8 @@ function AutocompleteComponent({ allowSearch, locationsData, fetcAutocompleteLoc
   };
 
   const onSelectHandle = (e, c) => {
-
     // cases where no country is chosen, 'x' button is clicked inside search
-    if (c) {
-      if (c.locationKey) {
-        allowSearch()
-        autocompleteCity(c)
-      }
-    }
+    if (c) if (c.locationKey) chooseCityToFetchWeatherFrom(c)
   };
 
 
@@ -136,7 +130,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetcAutocompleteLocations: (val) => dispatch(fetcAutocompleteLocations(val))
+    fetcAutocompleteLocations: (val) => dispatch(fetcAutocompleteLocations(val)),
+    chooseCityToFetchWeatherFrom: (city) => dispatch(chooseCityToFetchWeatherFrom(city))
   }
 }
 

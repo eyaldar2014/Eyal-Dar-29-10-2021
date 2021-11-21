@@ -1,29 +1,26 @@
 import react from 'react';
 
 import { connect } from 'react-redux'
+import { fetchFavoritetWeather, chooseCityToFetchWeatherFrom, removeFavorite } from '../redux'
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import FavoriteCard from './FavoriteCard';
-import Alert from '@mui/material/Alert';
-import CloseIcon from '@mui/icons-material/Close'
-import Collapse from '@mui/material/Collapse';
-import IconButton from '@mui/material/IconButton';
+
+import ErrorComponent from './ErrorComponent'
+import CardComponent from './CardComponent'
 
 
-function Favorites({ favorites, setup }) {
+function Favorites({ favorites, fetchFavoritetWeather, chooseCityToFetchWeatherFrom, removeFavorite, setup }) {
 
   const [error, setError] = react.useState(false)
-  const [open, setOpen] = react.useState(true)
 
   react.useEffect(() => {
 
-    if (favorites.error) {
-      setError(true)
-      setOpen(true)
-    }
-  }, [favorites])
+    if (favorites.error) setError(true)
+    if (favorites.favorites.length > 0) favorites.favorites.forEach((fav) => fetchFavoritetWeather(fav.locationKey))
+
+  }, [])
 
 
   return <>
@@ -36,29 +33,9 @@ function Favorites({ favorites, setup }) {
     >
 
       {
-        error === false ? null : <>
-          <Box sx={{ width: '100%' }}>
-            <Collapse in={open}>
-              <Alert
-                severity="error"
-                action={
-                  <IconButton
-                    aria-label="close"
-                    size="small"
-                    onClick={() => {
-                      setOpen(false);
-                    }}
-                  >
-                    <CloseIcon fontSize="inherit" />
-                  </IconButton>
-                }
-                sx={{ mb: 2 }}
-              >
-                error fetching data !
-              </Alert>
-            </Collapse>
-          </Box>
-        </>
+        error === false
+          ? null
+          : <ErrorComponent />
       }
 
       <Box
@@ -79,15 +56,35 @@ function Favorites({ favorites, setup }) {
             display: 'flex',
             flexWrap: 'wrap',
             minWidth: 200,
-            justifyContent: 'space-between'
+            justifyContent: 'flex-start'
           }}
         >
           {
             !favorites.favorites.length > 0
               ? null
-              : favorites.favorites.map((fav, i) => {
-                return <FavoriteCard key={i} favorite={fav} />
-              })
+              : !favorites.favorites.reduce((s, v) => s && (v.weather !== undefined), true)
+                ? null
+                : favorites.favorites.map((fav, i) => {
+
+                  return <CardComponent
+                    key={i}
+
+                    data={{
+                      title: fav.name,
+                      body: [
+                        {
+                          name: 'Current Temprature',
+                          value: 'is ' + fav.weather[setup.degrees.type] + setup.degrees.symbol
+                        }
+                      ]
+                    }}
+                    link='/'
+                    linkFunc={() => chooseCityToFetchWeatherFrom(fav)}
+                    btnName='remove'
+                    btnFunc={() => removeFavorite(fav.locationKey)}
+                  />
+
+                })
           }
 
         </Stack>
@@ -105,6 +102,15 @@ const mapStateToProps = state => {
   }
 }
 
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchFavoritetWeather: (val) => dispatch(fetchFavoritetWeather(val)),
+    removeFavorite: (favorite) => dispatch(removeFavorite(favorite)),
+    chooseCityToFetchWeatherFrom: (city) => dispatch(chooseCityToFetchWeatherFrom(city))
+  }
+}
+
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(Favorites)

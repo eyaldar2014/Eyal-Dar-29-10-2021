@@ -18,7 +18,7 @@ export const fetchFavoritetWeather = (val) => {
     try {
       dispatch(fetchFavoriteWeatherRequest())
 
-      const response = await axios.get(getCurrentWeather + val + apiKey)
+      const response = await axios.get(getCurrentWeather + val + apiKey, {method: 'HEAD', mode: 'no-cors'})
 
       const currentWeather = response.data
       if (!currentWeather) return dispatch(fetchFavoriteWeatherFailure('data not retreived', val))

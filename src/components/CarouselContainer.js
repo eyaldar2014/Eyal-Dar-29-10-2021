@@ -1,62 +1,118 @@
 import react from 'react';
 
-import Carousel from 'react-material-ui-carousel'
+import { connect } from 'react-redux'
 
+import Carousel from 'react-material-ui-carousel'
 import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-import DayForecast from './DayForecast';
+import CardComponent from './CardComponent'
 
+function CarouselContainer({ fiveDaysWeatherForecast, setup }) {
 
-function CarouselContainer({ days }) {
-
-  const [mq, setMq] = react.useState()
+  const [mq, setMq] = react.useState(0)
   const theme = useTheme();
+
   const matches = {
     1: useMediaQuery(theme.breakpoints.up('sm')),
     2: useMediaQuery(theme.breakpoints.up('md')),
     3: useMediaQuery(theme.breakpoints.up('lg'))
   }
 
-  // render on mq change !
   react.useEffect(() => {
+
+    setMediaQueryValue()
+
+  }, [matches, fiveDaysWeatherForecast])
+
+
+  const setMediaQueryValue = () => {
 
     let counter = 0
     for (let key in matches) if (matches[key]) counter = parseInt(key)
-    if (mq !== null) setMq(counter)
+    setMq(counter)
+  }
 
-  }, [matches])
-
-
-  const createArrayOfDaysForCarousel = () => {
-
-    if (mq === 0) {
-      return days.map((day, i) => {
-        return <Stack
-          direction="row"
+  const createArrayOfSingleDay = () => {
+    return fiveDaysWeatherForecast.fiveDaysWeatherForecast.map((d, i) => {
+      return <Stack
+        direction="row"
+        key={i}
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+        }}
+      >
+        <CardComponent
           key={i}
-          sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
+
+          data={{
+            title: d.dayOfTheWeek,
+            body: [
+              {
+                name: 'Temprature',
+                value: d[setup.degrees.type].min + ' - ' + d[setup.degrees.type].max + ' ' + setup.degrees.symbol
+              },
+              {
+                name: 'Day',
+                value: d.day
+              },
+              {
+                name: 'Night',
+                value: d.night
+              },
+            ]
           }}
-        >
-          <DayForecast day={day} />
-        </Stack>
-      })
-    }
+
+        />
+
+      </Stack>
+    })
+  }
+
+  const createArrayOfFewDays = () => {
+
+    if (mq === 0) return createArrayOfSingleDay()
 
     // if (mq > 0 && mq < 3) 
     else {
 
       let arrayOfDays = []
-      for (let i = 0; i < days.length - mq; i = i + mq) {
+      for (let i = 0; i < fiveDaysWeatherForecast.fiveDaysWeatherForecast.length - mq; i = i + mq) {
 
         let daysPerStack
         let n = 0
         while (mq + 1 > n) {
-          daysPerStack = <> {daysPerStack} <DayForecast day={days[i + n]} /> </>
+          daysPerStack = <>
+
+            {daysPerStack}
+
+            <CardComponent
+              key={i}
+
+              data={{
+                title: fiveDaysWeatherForecast.fiveDaysWeatherForecast[i + n].dayOfTheWeek,
+                body: [
+                  {
+                    name: 'Temprature',
+                    value: fiveDaysWeatherForecast.fiveDaysWeatherForecast[i + n][setup.degrees.type].min + ' - ' + fiveDaysWeatherForecast.fiveDaysWeatherForecast[i + n][setup.degrees.type].max + ' ' + setup.degrees.symbol
+                  },
+                  {
+                    name: 'Day',
+                    value: fiveDaysWeatherForecast.fiveDaysWeatherForecast[i + n].day
+                  },
+                  {
+                    name: 'Night',
+                    value: fiveDaysWeatherForecast.fiveDaysWeatherForecast[i + n].night
+                  },
+                ]
+              }}
+
+            />
+
+          </>
           n++
         }
 
@@ -84,9 +140,10 @@ function CarouselContainer({ days }) {
 
   return <>
 
-    {!days
+    {fiveDaysWeatherForecast.fiveDaysWeatherForecast.length === 0
       ? null
       : mq === 3
+
         ? <Stack
           direction="row"
           sx={{
@@ -94,21 +151,26 @@ function CarouselContainer({ days }) {
             flexWrap: 'wrap',
             justifyContent: 'space-between',
           }}
-        >
-          {
-            days.map((d, i) => {
-              return <DayForecast key={i} day={d} />
-            })
-          }
+        > {createArrayOfSingleDay()}
         </Stack>
+
         : <Carousel autoPlay={false} navButtonsAlwaysVisible={true} animation={'fade'} >
-          {createArrayOfDaysForCarousel()}
+          {createArrayOfFewDays()}
         </Carousel>
     }
-       
+
   </>
 }
 
 
-export default CarouselContainer;
+const mapStateToProps = state => {
+  return {
+    fiveDaysWeatherForecast: state.fiveDaysWeatherForecast,
+    setup: state.setup
+  }
+}
 
+export default connect(
+  mapStateToProps,
+  null
+)(CarouselContainer)

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import weekDays from '../fixtures/weekDays'
 
 import {
   FETCH_FIVE_DAYS_WEATHER_FORECAST_REQUEST,
@@ -22,14 +23,16 @@ export const fetchFiveDaysWeather = (val) => {
       if (!fiveDaysWeatherForecastData) return dispatch(fetchFiveDaysWeatherFailure('data not retreived'))
 
       let fiveDaysWeatherForecast = fiveDaysWeatherForecastData.map(day => {
+        
         let temp = {}
         temp.f = {}
         temp.f.min = day.Temperature.Minimum.Value
         temp.f.max = day.Temperature.Maximum.Value
         temp.c = {}
         temp.c.min = Math.floor((day.Temperature.Minimum.Value - 32) / 1.8)
-        temp.c.max = Math.floor((day.Temperature.Maximum.Value - 32) / 1.8) 
-        temp.date = day.Date
+        temp.c.max = Math.floor((day.Temperature.Maximum.Value - 32) / 1.8)
+        const date = new Date(day.Date);
+        temp.dayOfTheWeek = weekDays[date.getDay()]
         temp.day = day.Day.IconPhrase
         temp.night = day.Night.IconPhrase
 

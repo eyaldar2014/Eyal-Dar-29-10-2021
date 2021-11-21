@@ -90,8 +90,8 @@ function Navbar({ changeDegreesToCelsius, changeDegreesToFahrenheit, changeTheme
             onClick={themeAction}
           >
             <DarkModeIcon />
-          </IconButton>
-
+          </IconButton> 
+         
         </Toolbar>
       </AppBar>
     </Box>
