@@ -15,6 +15,7 @@ function App() {
 
   return <>
     <Provider store={store}>
+      {/* for the way I style the button for example */}
       <StyledEngineProvider injectFirst>
 
         <BrowserRouter>

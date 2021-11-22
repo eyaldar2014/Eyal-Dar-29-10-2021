@@ -1,5 +1,6 @@
 
 import { combineReducers } from 'redux'
+
 import autocompleteReducer from './autocomplete/autocompleteReducer'
 import currentWeatherReducer from './currentWeather/currentWeatherReducer'
 import fiveDaysWeatherForecastReducer from './fiveDaysWeatherForecast/fiveDaysWeatherForecastReducer'

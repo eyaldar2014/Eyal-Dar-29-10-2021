@@ -2,6 +2,7 @@ import react from 'react';
 
 import { connect } from 'react-redux'
 
+import Box from '@mui/material/Box';
 import Carousel from 'react-material-ui-carousel'
 import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/material/styles';
@@ -36,8 +37,7 @@ function CarouselContainer({ fiveDaysWeatherForecast, setup }) {
 
   const createArrayOfSingleDay = () => {
     return fiveDaysWeatherForecast.fiveDaysWeatherForecast.map((d, i) => {
-      return <Stack
-        direction="row"
+      return <Box
         key={i}
         sx={{
           display: 'flex',
@@ -46,8 +46,6 @@ function CarouselContainer({ fiveDaysWeatherForecast, setup }) {
         }}
       >
         <CardComponent
-          key={i}
-
           data={{
             title: d.dayOfTheWeek,
             body: [
@@ -68,7 +66,7 @@ function CarouselContainer({ fiveDaysWeatherForecast, setup }) {
 
         />
 
-      </Stack>
+      </Box>
     })
   }
 

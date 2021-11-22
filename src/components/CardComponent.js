@@ -14,11 +14,6 @@ import { makeStyles } from '@material-ui/core';
 
 function CardComponent({ data, btnName, btnFunc, link, linkFunc, setup }) {
 
-  react.useEffect(() => {
-
-  }, [data])
-
-
   const useStyles = makeStyles({
     card: {
       backgroundColor: setup.theme.backgroundColor,
@@ -98,7 +93,8 @@ function CardComponent({ data, btnName, btnFunc, link, linkFunc, setup }) {
 
         </Link>
 
-        {!btnFunc || !btnName
+        {
+        !btnFunc || !btnName
           ? null
           : <>
             <Button

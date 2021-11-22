@@ -10,27 +10,16 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
 
-//
-// 'chooseCityToFetchWeatherFrom' maybe will not be necessary after gps usage
-//
-
 function CurrentMainCity({ fetchCurrentWeather, fetchFiveDaysWeather, currentWeather, chooseCityToFetchWeatherFrom, city, favorites, addFavorite, removeFavorite, setup }) {
 
   const [favoriteItem, setFavoriteItem] = react.useState('add')
 
 
-
+// create here get location and api calculation method (redux) // 'chooseCityToFetchWeatherFrom' maybe will not be necessary after gps usage
   react.useEffect(() => {
-
-    // create here get location and api calculation method (redux?)
 
     if (!city) chooseCityToFetchWeatherFrom({ name: 'Tel Aviv, Israel', locationKey: 215854 })
   }, [])
-
-
-
-
-
 
   // useEffect are seperated for saving api calls
   react.useEffect(() => {

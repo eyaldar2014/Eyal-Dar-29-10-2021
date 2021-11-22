@@ -1,7 +1,7 @@
+import { Link } from "react-router-dom";
+
 import { connect } from 'react-redux'
 import { changeDegreesToCelsius, changeDegreesToFahrenheit, changeThemeToLight, changeThemeToDark } from '../redux'
-
-import { Link } from "react-router-dom";
 
 import Typography from '@mui/material/Typography';
 import AppBar from '@mui/material/AppBar';
