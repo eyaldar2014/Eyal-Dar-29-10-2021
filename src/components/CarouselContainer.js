@@ -11,6 +11,7 @@ import CardComponent from './CardComponent'
 
 function CarouselContainer({ fiveDaysWeatherForecast, setup }) {
 
+  // mq stands for media-query
   const [mq, setMq] = react.useState(0)
   const theme = useTheme();
 
@@ -20,19 +21,18 @@ function CarouselContainer({ fiveDaysWeatherForecast, setup }) {
     3: useMediaQuery(theme.breakpoints.up('lg'))
   }
 
+  // to do later :
+  // "Warning: Can't perform a React state update on an unmounted component" :
+  // warning is shown if responsiveness changes too quickly (twice or more). at 'Carousel' component.
+  // can solve using setTimeout for setMq 
   react.useEffect(() => {
-
-    setMediaQueryValue()
-
-  }, [matches, fiveDaysWeatherForecast])
-
-
-  const setMediaQueryValue = () => {
 
     let counter = 0
     for (let key in matches) if (matches[key]) counter = parseInt(key)
     setMq(counter)
-  }
+
+  }, [matches, fiveDaysWeatherForecast])
+
 
   const createArrayOfSingleDay = () => {
     return fiveDaysWeatherForecast.fiveDaysWeatherForecast.map((d, i) => {
@@ -86,9 +86,7 @@ function CarouselContainer({ fiveDaysWeatherForecast, setup }) {
         let n = 0
         while (mq + 1 > n) {
           daysPerStack = <>
-
             {daysPerStack}
-
             <CardComponent
               key={i}
 
@@ -109,7 +107,6 @@ function CarouselContainer({ fiveDaysWeatherForecast, setup }) {
                   },
                 ]
               }}
-
             />
 
           </>
@@ -154,7 +151,7 @@ function CarouselContainer({ fiveDaysWeatherForecast, setup }) {
         > {createArrayOfSingleDay()}
         </Stack>
 
-        : <Carousel autoPlay={false} navButtonsAlwaysVisible={true} animation={'fade'} >
+        : <Carousel autoPlay={false} navButtonsAlwaysVisible={true} animation={'slide'} >
           {createArrayOfFewDays()}
         </Carousel>
     }
