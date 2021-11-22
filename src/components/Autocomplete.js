@@ -8,7 +8,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
 
 
-// at callAutoCompleteApi function, for delay reason
+// at callAutoCompleteApi function, for delay reason. where should it be? redux. redux-helpers.
 let temp = 1;
 
 function AutocompleteComponent({ locationsData, fetcAutocompleteLocations, chooseCityToFetchWeatherFrom, setup }) {
